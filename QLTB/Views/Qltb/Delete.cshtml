@@ -1,0 +1,40 @@
+﻿@model QLTB.Models.Thietbi
+
+<h3>Ban co muon xoa?</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tentb)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tentb)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nuocsx)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nuocsx)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Donvi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Donvi.Tendv)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Loaithietbi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Loaithietbi.Tenloai)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Matb" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+
+</div>

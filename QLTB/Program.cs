@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using QLTB.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<QltbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("QLTBContext") ?? throw new InvalidOperationException("Connection string 'QLTBContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
