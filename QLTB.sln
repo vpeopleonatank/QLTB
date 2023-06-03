@@ -20,8 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{6813D15E-B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HD.Station.Qltb.Demoo", "HD.Station.Qltb.Demoo\HD.Station.Qltb.Demoo.csproj", "{057CE97A-BDD2-4B0C-BAF9-6A6F1589D923}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCareas", "..\..\..\AspNetCore.Docs\aspnetcore\mvc\controllers\areas\60samples\MVCareas\MVCareas.csproj", "{5C84C336-2DA1-4C34-9563-DD4530538E00}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,10 +42,6 @@ Global
 		{057CE97A-BDD2-4B0C-BAF9-6A6F1589D923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{057CE97A-BDD2-4B0C-BAF9-6A6F1589D923}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{057CE97A-BDD2-4B0C-BAF9-6A6F1589D923}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C84C336-2DA1-4C34-9563-DD4530538E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C84C336-2DA1-4C34-9563-DD4530538E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C84C336-2DA1-4C34-9563-DD4530538E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C84C336-2DA1-4C34-9563-DD4530538E00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
