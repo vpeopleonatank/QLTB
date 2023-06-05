@@ -11,14 +11,17 @@ builder.Services.AddDbContext<QltbContext>(options =>
 builder.Services.Configure<RazorViewEngineOptions>(o =>
 {
     o.AreaViewLocationFormats.Clear();
-    //o.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);
-    o.AreaViewLocationFormats.Add("/Features/{2}/{1}/Views/{0}" + RazorViewEngine.ViewExtension);
+    o.ViewLocationFormats.Add("~/Views/{0}" + RazorViewEngine.ViewExtension);
+    o.ViewLocationFormats.Add("~/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
+    o.AreaViewLocationFormats.Add("/Features/{2}/Views/{1}/{0}" + RazorViewEngine.ViewExtension);
     o.AreaViewLocationFormats.Add("/Features/{1}/Views/{0}" + RazorViewEngine.ViewExtension);
+    o.AreaViewLocationFormats.Add("/Features/Shared/Views/{0}" + RazorViewEngine.ViewExtension);
+    o.AreaViewLocationFormats.Add("/Features/Shared/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
 });
 builder.Services.AddTransient<IDeviceStore, DeviceStore>();
 builder.Services.AddTransient<IDeviceManagement, DeviceManagement>();
 // Add services to the container.
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
