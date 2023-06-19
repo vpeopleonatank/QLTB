@@ -71,13 +71,13 @@ namespace HD.Station.Qltb.Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([Bind("Madv", "Maloai", "Tentb", "Nuocsx")] Thietbi thietbi)
+        public async Task<IActionResult> Edit([Bind("Madv", "Maloai", "Tentb", "Nuocsx")] Thietbi thietbi)
         {
             if (thietbi == null)
             {
                 return NotFound();
             }
-            _deviceStore.Update(thietbi);
+            await _deviceStore.Update(thietbi);
             return RedirectToAction(nameof(Index));
         }
 
@@ -102,7 +102,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             Thietbi thietbi = await _deviceStore.GetDeviceById(id);
-            _deviceStore.Remove(thietbi);
+            await _deviceStore.Remove(thietbi);
 
             return RedirectToAction(nameof(Index));
         }

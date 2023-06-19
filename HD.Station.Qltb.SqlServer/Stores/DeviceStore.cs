@@ -50,7 +50,7 @@ namespace HD.Station.Qltb.SqlServer
         {
             return await _qltbContext.Loaithietbi.ToListAsync();
         }
-        public async void Add(Thietbi? thietbi)
+        public async Task Add(Thietbi? thietbi)
         {
             if (thietbi != null)
             {
@@ -58,7 +58,7 @@ namespace HD.Station.Qltb.SqlServer
                 await _qltbContext.SaveChangesAsync();
             }
         }
-        public async void Remove(Thietbi? thietbi)
+        public async Task Remove(Thietbi? thietbi)
         {
             if (thietbi != null)
             {
@@ -66,7 +66,7 @@ namespace HD.Station.Qltb.SqlServer
                 await _qltbContext.SaveChangesAsync();
             }
         }
-        public async void Update(Thietbi? thietbi)
+        public async Task Update(Thietbi? thietbi)
         {
             if (thietbi != null)
             {

@@ -12,8 +12,8 @@ namespace HD.Station.Qltb.Abstractions.Stores
         public Task<Thietbi?> GetDeviceById(int? id);
         public Task<IEnumerable<Donvi?>?> GetAllDonvi();
         public Task<IEnumerable<Loaithietbi?>?> GetAllLoaithietbi();
-        public void Add(Thietbi? thietbi);
-        public void Remove(Thietbi? thietbi);
-        public void Update(Thietbi? thietbi);
+        public Task Add(Thietbi? thietbi);
+        public Task Remove(Thietbi? thietbi);
+        public Task Update(Thietbi? thietbi);
     }
 }
