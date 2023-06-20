@@ -1,6 +1,6 @@
-﻿using HD.Station.Qltb.Abstractions.Stores;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using HD.Station.Qltb.Abstractions.Data;
+using HD.Station.Qltb.Abstractions.Abstractions;
 using HD.Station.Qltb.Mvc.Models;
 
 namespace HD.Station.Qltb.Mvc.Controllers
@@ -8,14 +8,14 @@ namespace HD.Station.Qltb.Mvc.Controllers
     [Area("Qltb")]
     public class QltbController : Controller
     {
-        private readonly IDeviceStore _deviceStore;
-        public QltbController(IDeviceStore deviceStore)
+        private readonly IDeviceManagement _deviceManage;
+        public QltbController(IDeviceManagement deviceManagement)
         {
-            _deviceStore = deviceStore;
+            _deviceManage = deviceManagement;
         }
         public async Task<IActionResult> Index()
         {
-            var devices = await _deviceStore.GetAllDevices();
+            var devices = await _deviceManage.GetAllDevices();
             var devicesVM = new DevicesViewModel
             {
                 Thietbis = devices as List<Thietbi>
@@ -25,8 +25,8 @@ namespace HD.Station.Qltb.Mvc.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var Donvis = await _deviceStore.GetAllDonvi();
-            var Loaithietbis = await _deviceStore.GetAllLoaithietbi();
+            var Donvis = await _deviceManage.GetAllDonvi();
+            var Loaithietbis = await _deviceManage.GetAllLoaithietbi();
             var donviLoaitbVM = new DonviLoaithietbiViewModel
             {
                 Loaithietbis = Loaithietbis as ICollection<Loaithietbi>,
@@ -42,7 +42,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _deviceStore.Add(thietbi);
+                _deviceManage.Add(thietbi);
                 return RedirectToAction("Index");
             }
             return View(thietbi);
@@ -54,13 +54,13 @@ namespace HD.Station.Qltb.Mvc.Controllers
             {
                 return NotFound();
             }
-            var thietbi = await _deviceStore.GetDeviceById(id) as Thietbi;
+            var thietbi = await _deviceManage.GetDeviceById(id) as Thietbi;
             if (thietbi == null)
             {
                 return NotFound();
             }
-            var Donvis = await _deviceStore.GetAllDonvi();
-            var Loaithietbis = await _deviceStore.GetAllLoaithietbi();
+            var Donvis = await _deviceManage.GetAllDonvi();
+            var Loaithietbis = await _deviceManage.GetAllLoaithietbi();
             var donviLoaitbVM = new DonviLoaithietbiViewModel
             {
                 Loaithietbis = Loaithietbis as ICollection<Loaithietbi>,
@@ -77,7 +77,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
             {
                 return NotFound();
             }
-            await _deviceStore.Update(thietbi);
+            await _deviceManage.Update(thietbi);
             return RedirectToAction(nameof(Index));
         }
 
@@ -88,7 +88,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
                 return NotFound();
             }
 
-            var thietbi = await _deviceStore.GetDeviceById(id);
+            var thietbi = await _deviceManage.GetDeviceById(id);
             if (thietbi == null)
             {
                 return NotFound();
@@ -99,10 +99,9 @@ namespace HD.Station.Qltb.Mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            Thietbi thietbi = await _deviceStore.GetDeviceById(id);
-            await _deviceStore.Remove(thietbi);
+            await _deviceManage.Remove(id);
 
             return RedirectToAction(nameof(Index));
         }

@@ -60,23 +60,23 @@ namespace HD.Station.Qltb.Abstractions.Services
 
             return LoaithietbiList;
         }
-        public async void Add(int? thietbiId)
+        public async Task Add(int? thietbiId)
         {
             var thietbi = await _deviceStore.GetDeviceById(thietbiId);
-            _deviceStore.Add(thietbi);
+            await _deviceStore.Add(thietbi);
         }
-        public void Add(Thietbi thietbi)
+        public async Task Add(Thietbi? thietbi)
         {
-            _deviceStore.Add(thietbi);
+            await _deviceStore.Add(thietbi);
         }
-        public async void Remove(int? thietbiId)
+        public async Task Remove(int? thietbiId)
         {
             var thietbi = await _deviceStore.GetDeviceById(thietbiId);
-            _deviceStore.Remove(thietbi);
+            await _deviceStore.Remove(thietbi);
         }
-        public void Update(Thietbi? thietbi)
+        public async Task Update(Thietbi? thietbi)
         {
-            _deviceStore.Update(thietbi);
+            await _deviceStore.Update(thietbi);
         }
     }
 }

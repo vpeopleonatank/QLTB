@@ -12,6 +12,10 @@ namespace HD.Station.Qltb.SqlServer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email).IsUnique();
+
             modelBuilder.Entity<Thietbi>(entity =>
             {
                 entity.HasKey(k => k.Matb);
@@ -39,5 +43,6 @@ namespace HD.Station.Qltb.SqlServer
         public DbSet<Thietbi> Thietbi { get; set; }
         public DbSet<Donvi> Donvi { get; set; }
         public DbSet<Loaithietbi> Loaithietbi { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }
