@@ -1,8 +1,4 @@
 ﻿using HD.Station.Qltb.Abstractions.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HD.Station.Qltb.Abstractions.Stores
 {
@@ -15,5 +11,9 @@ namespace HD.Station.Qltb.Abstractions.Stores
         public Task Add(Thietbi? thietbi);
         public Task Remove(Thietbi? thietbi);
         public Task Update(Thietbi? thietbi);
+        public Task<UserAccount?> GetUser(string email, string password);
+        public Task<Boolean> CheckUserExist(string email);
+        public Task<UserAccount> CreateUser(string? username, string? email, string? password);
+        public Task<UserAccount?> FindUser(string? email, string? password);
     }
 }

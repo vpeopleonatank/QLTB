@@ -13,7 +13,7 @@ namespace HD.Station.Qltb.SqlServer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserAccount>()
             .HasIndex(u => u.Email).IsUnique();
 
             modelBuilder.Entity<Thietbi>(entity =>
@@ -40,9 +40,9 @@ namespace HD.Station.Qltb.SqlServer
             });
         }
 
-        public DbSet<Thietbi> Thietbi { get; set; }
-        public DbSet<Donvi> Donvi { get; set; }
-        public DbSet<Loaithietbi> Loaithietbi { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Thietbi>? Thietbi { get; set; }
+        public DbSet<Donvi>? Donvi { get; set; }
+        public DbSet<Loaithietbi>? Loaithietbi { get; set; }
+        public DbSet<UserAccount>? UserAccount { get; set; }
     }
 }

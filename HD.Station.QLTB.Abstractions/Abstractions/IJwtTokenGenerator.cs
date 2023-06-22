@@ -4,5 +4,5 @@ namespace HD.Station.Qltb.Abstractions.Abstractions;
 
 public interface IJwtTokenGenerator
 {
-    string CreateToken(User user);
+    string CreateToken(UserAccount user);
 }

@@ -5,9 +5,8 @@ using System.Text;
 
 using HD.Station.Qltb.Abstractions.Abstractions;
 using HD.Station.Qltb.Abstractions.Data;
+using HD.Station.Qltb.Abstractions.Options;
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,15 +15,13 @@ namespace HD.Station.Qltb.Abstractions.Services;
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
     private readonly JwtOptions _jwtOptions;
-    private readonly HttpContext? _httpContext;
 
-    public JwtTokenGenerator(IOptionsMonitor<JwtOptions> options, IHttpContextAccessor httpContextAccessor)
+    public JwtTokenGenerator(IOptionsMonitor<JwtOptions> options)
     {
         _jwtOptions = options.CurrentValue;
-        _httpContext = httpContextAccessor.HttpContext;
     }
 
-    public string CreateToken(User user)
+    public string CreateToken(UserAccount user)
     {
         if (_jwtOptions.SecretKey is null)
         {
@@ -50,16 +47,6 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
         var response = tokenHandler.WriteToken(token);
-
-        _httpContext?.Response.Cookies.Append(
-            JwtBearerDefaults.AuthenticationScheme,
-            response,
-            new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = tokenDescriptor.Expires,
-            }
-        );
 
         return response;
     }

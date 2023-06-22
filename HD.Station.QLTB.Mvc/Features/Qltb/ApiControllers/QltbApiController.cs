@@ -5,12 +5,13 @@ using HD.Station.Qltb.Mvc.Models;
 
 namespace HD.Station.Qltb.Mvc.ApiControllers
 {
+    [Route("[controller]")]
     public class QltbController : Controller
     {
-        private readonly IDeviceManagement _deviceManage;
+        private readonly IDeviceManagement _deviceManagement;
         public QltbController(IDeviceManagement deviceManagement)
         {
-            _deviceManage = deviceManagement;
+            _deviceManagement = deviceManagement;
         }
 
         // [HttpGet]
