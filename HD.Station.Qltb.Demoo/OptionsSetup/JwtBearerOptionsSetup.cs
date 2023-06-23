@@ -29,5 +29,33 @@ public class JwtBearerOptionsSetup : IPostConfigureOptions<JwtBearerOptions>
         options.TokenValidationParameters.ValidateIssuerSigningKey = true;
         options.TokenValidationParameters.IssuerSigningKey =
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey!));
+
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = async context =>
+            {
+                var currentUser = context.HttpContext.RequestServices.GetRequiredService<ICurrentUser>();
+                var userId = context.Principal?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                var claims = context.Principal?.Claims;
+
+
+                if (userId != null)
+                {
+                    await currentUser.SetIdentifier(Convert.ToInt32(userId, CultureInfo.InvariantCulture));
+                }
+
+                if (currentUser.User is null)
+                {
+                    context.Fail("User unknown.");
+                }
+            },
+            // OnMessageReceived = context =>
+            // {
+            //     context.Token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ")[^1]
+            //         ?? context.Request.Cookies[JwtBearerDefaults.AuthenticationScheme];
+
+            //     return Task.CompletedTask;
+            // }
+        };
     }
 }

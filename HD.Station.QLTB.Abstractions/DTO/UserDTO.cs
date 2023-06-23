@@ -16,13 +16,13 @@ namespace HD.Station.Qltb.Abstractions.DTO
     {
         public static UserDTO Map(this UserAccount user, IJwtTokenGenerator jwtTokenGenerator)
         {
-            return new()
+          return new()
             {
                 Email = user.Email,
                 Token = jwtTokenGenerator.CreateToken(user),
                 Username = user.Name,
                 Bio = user.Bio!,
-                Image = user.Image!,
+                Image = user.Image!
             };
         }
     }

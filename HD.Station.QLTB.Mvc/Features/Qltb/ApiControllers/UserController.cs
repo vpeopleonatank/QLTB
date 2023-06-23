@@ -7,6 +7,7 @@ namespace HD.Station.Qltb.Mvc.ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IDeviceManagement _deviceManagement;
@@ -21,81 +22,12 @@ namespace HD.Station.Qltb.Mvc.ApiControllers
             _passwordHasher = passwordHasher;
         }
 
-        [HttpGet("")]
-        public ActionResult<string> GetStr()
+        [HttpGet("GetCurrentUser")]
+        public async Task<UserDTO> Current(CancellationToken cancellationToken)
         {
-            return "abc123";
+            return await _userManagement.GetCurrentUser();
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Register([FromBody] NewUserDTO newUserDtoRequest, CancellationToken cancellationToken)
-        {
-            if (newUserDtoRequest != null && newUserDtoRequest.Email != null
-                && newUserDtoRequest.Password != null
-                && newUserDtoRequest.Username != null)
-            {
-                if (await _userManagement.CheckUserExist(newUserDtoRequest.Email))
-                {
-                    ModelState.AddModelError(nameof(newUserDtoRequest.Email), "Email existed!");
-                }
-            }
-            else if (newUserDtoRequest == null)
-            {
-                ModelState.AddModelError("Body", "Parse body data error");
-            }
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).ToArray()
-                );
-                var errorResponse = new ErrorResponse
-                {
-                    Message = "Validation failed",
-                    Errors = errors
-                };
-                return BadRequest(errorResponse);
-            }
-            var userDTO = await _userManagement.CreateUser(newUserDtoRequest);
-            return Ok(userDTO);
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<UserDTO>> Login([FromBody] UserLoginDTO userLoginDTO, CancellationToken cancellationToken)
-        {
-            UserDTO userDTO = new UserDTO();
-            if (userLoginDTO != null && userLoginDTO.Email != null
-                && userLoginDTO.Password != null)
-            {
-                var user = await _userManagement.Login(userLoginDTO);
-                if (user?.Password is null || !_passwordHasher.Check(userLoginDTO.Password, user.Password))
-                {
-                    ModelState.AddModelError("Email or Password", "Bad credentials");
-                }
-                else
-                {
-                    userDTO = user.Map(_jwtTokenGenerator);
-                }
-            }
-            else if (userLoginDTO == null)
-            {
-                ModelState.AddModelError("Body", "Parse body data error");
-            }
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.ToDictionary(
-                    kvp => kvp.Key,
-                    kvp => kvp.Value?.Errors.Select(e => e.ErrorMessage).ToArray()
-                );
-                var errorResponse = new ErrorResponse
-                {
-                    Message = "Validation failed",
-                    Errors = errors
-                };
-                return BadRequest(errorResponse);
-            }
-            return Ok(userDTO);
-        }
     }
 }
 

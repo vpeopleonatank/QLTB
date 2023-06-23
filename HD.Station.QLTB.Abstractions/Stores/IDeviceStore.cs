@@ -15,5 +15,6 @@ namespace HD.Station.Qltb.Abstractions.Stores
         public Task<Boolean> CheckUserExist(string email);
         public Task<UserAccount> CreateUser(string? username, string? email, string? password);
         public Task<UserAccount?> FindUser(string? email, string? password);
+        public Task<UserAccount?> FindUserById(long id);
     }
 }

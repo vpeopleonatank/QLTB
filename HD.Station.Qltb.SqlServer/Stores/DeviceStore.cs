@@ -105,5 +105,11 @@ namespace HD.Station.Qltb.SqlServer
               .SingleOrDefaultAsync();
             return user;
         }
+
+        public async Task<UserAccount?> FindUserById(long id)
+        {
+          return await _qltbContext.UserAccount
+            .Where(x => x.Id == id).SingleOrDefaultAsync();
+        }
     }
 }

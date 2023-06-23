@@ -6,6 +6,7 @@ using HD.Station.Qltb.SqlServer;
 using HD.Station.Qltb.Abstractions.Stores;
 using HD.Station.Qltb.Abstractions.Abstractions;
 using HD.Station.Qltb.Abstractions.Services;
+using HD.Station.Qltb.Abstractions.Security;
 using HD.Station.Qltb.Demoo.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,7 @@ builder.Services.AddTransient<IDeviceManagement, DeviceManagement>();
 builder.Services.AddTransient<IUserManagement, UserManagement>();
 builder.Services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.ConfigureOptions<JwtOptionsSetup>()
