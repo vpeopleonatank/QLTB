@@ -6,3 +6,10 @@
 # Bài tập SQL Quản lý karaoke
 - Script tạo bảng và thêm dữ liệu cho CSDL: `TaoCSDLchoBT_SQL.sql`
 - Script trả lời 11 câu hỏi: `LamBT_SQL_karaoke.sql`
+
+# Use user-secret to manage settings
+- On windows, use below commands to override `appsettings.json`:
+```
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:QLTBContext" "Data Source=(localdb)\mssqllocaldb;Database=QLTB;Trusted_Connection=True;MultipleActiveResultSets=true;" --project .\HD.Station.Qltb.Demoo\
+```

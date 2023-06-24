@@ -10,6 +10,7 @@ using HD.Station.Qltb.Abstractions.Security;
 using HD.Station.Qltb.Demoo.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
+Console.WriteLine(builder.Configuration.GetConnectionString("QLTBContext"));
 builder.Services.AddDbContext<QltbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("QLTBContext") ?? throw new InvalidOperationException("Connection string 'QLTBContext' not found.")));
 builder.Services.Configure<RazorViewEngineOptions>(o =>
