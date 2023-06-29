@@ -1,5 +1,6 @@
 ﻿using HD.Station.Qltb.Abstractions.Abstractions;
 using HD.Station.Qltb.Abstractions.Data;
+using HD.Station.Qltb.Abstractions.DTO;
 using HD.Station.Qltb.Abstractions.Stores;
 
 namespace HD.Station.Qltb.Abstractions.Services
@@ -11,7 +12,7 @@ namespace HD.Station.Qltb.Abstractions.Services
         {
             _deviceStore = deviceStore;
         }
-        public async Task<IEnumerable<Thietbi?>?> GetAllDevices()
+        public async Task<IEnumerable<Thietbi>> GetAllDevices()
         {
             var DevicesList = await _deviceStore.GetAllDevices();
             if (DevicesList == null)
@@ -21,12 +22,18 @@ namespace HD.Station.Qltb.Abstractions.Services
 
             return DevicesList;
         }
-        public async Task<Thietbi?> GetDeviceById(int? id)
+
+        public async Task<DevicesResponseDto> GetAllDevices(PagingParameters pagingParameters)
         {
-            if (id == null)
-            {
-                return null;
-            }
+          var thietbis = (List<Thietbi>) await _deviceStore.GetAllDevices(pagingParameters);
+          var thietbiDtos = thietbis.Select(
+              thietbiEntity => ThietbiDTO.MapFromThietbi(thietbiEntity)).ToList();
+          return new DevicesResponseDto(thietbiDtos, thietbiDtos.Count);
+
+        }
+
+        public async Task<Thietbi> GetDeviceById(int id)
+        {
             var Device = await _deviceStore.GetDeviceById(id);
             if (Device == null)
             {
@@ -34,7 +41,7 @@ namespace HD.Station.Qltb.Abstractions.Services
             }
             return Device;
         }
-        public async Task<IEnumerable<Donvi?>?> GetAllDonvi()
+        public async Task<IEnumerable<Donvi>> GetAllDonvi()
         {
             var DonviList = await _deviceStore.GetAllDonvi();
             if (DonviList == null)
@@ -45,7 +52,7 @@ namespace HD.Station.Qltb.Abstractions.Services
             return DonviList;
         }
 
-        public async Task<IEnumerable<Loaithietbi?>?> GetAllLoaithietbi()
+        public async Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi()
         {
             var LoaithietbiList = await _deviceStore.GetAllLoaithietbi();
             if (LoaithietbiList == null)
@@ -55,21 +62,21 @@ namespace HD.Station.Qltb.Abstractions.Services
 
             return LoaithietbiList;
         }
-        public async Task Add(int? thietbiId)
+        public async Task Add(int thietbiId)
         {
             var thietbi = await _deviceStore.GetDeviceById(thietbiId);
             await _deviceStore.Add(thietbi);
         }
-        public async Task Add(Thietbi? thietbi)
+        public async Task Add(Thietbi thietbi)
         {
             await _deviceStore.Add(thietbi);
         }
-        public async Task Remove(int? thietbiId)
+        public async Task Remove(int thietbiId)
         {
             var thietbi = await _deviceStore.GetDeviceById(thietbiId);
             await _deviceStore.Remove(thietbi);
         }
-        public async Task Update(Thietbi? thietbi)
+        public async Task Update(Thietbi thietbi)
         {
             await _deviceStore.Update(thietbi);
         }

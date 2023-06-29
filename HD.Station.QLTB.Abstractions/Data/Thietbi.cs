@@ -12,8 +12,8 @@ namespace HD.Station.Qltb.Abstractions.Data
         [Display(Name = "Nuoc san xuat")]
         public string? Nuocsx { get; set; }
         [Display(Name = "Don vi")]
-        public Donvi? Donvi { get; set; }
+        public Donvi Donvi { get; set; } = null!;
         [Display(Name = "Loai thiet bi")]
-        public Loaithietbi? Loaithietbi { get; set; }
+        public Loaithietbi Loaithietbi { get; set; } = null!;
     }
 }

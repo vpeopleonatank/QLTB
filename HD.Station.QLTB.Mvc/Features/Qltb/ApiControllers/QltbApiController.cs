@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using HD.Station.Qltb.Abstractions.Data;
+using Microsoft.AspNetCore.Authorization;
 using HD.Station.Qltb.Abstractions.Abstractions;
-using HD.Station.Qltb.Mvc.Models;
+using HD.Station.Qltb.Abstractions.DTO;
 
 namespace HD.Station.Qltb.Mvc.ApiControllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
     public class QltbController : Controller
     {
         private readonly IDeviceManagement _deviceManagement;
@@ -14,14 +16,11 @@ namespace HD.Station.Qltb.Mvc.ApiControllers
             _deviceManagement = deviceManagement;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult<IEnumerable<ThietbiDTO>>> Get(int id)
-        // {
-        //     var devices = await _deviceManage.GetAllDevices();
-        //     var devicesVM = new ThietbiDTO
-        //     {
-        //         Thietbis = devices as List<Thietbi>
-        //     };
-        // }
+        [HttpGet]
+        public async Task<ActionResult<DevicesResponseDto>> Get([FromQuery] PagingParameters pagingParameters)
+        {
+            var devices = await _deviceManagement.GetAllDevices(pagingParameters);
+            return devices;
+        }
     }
 }

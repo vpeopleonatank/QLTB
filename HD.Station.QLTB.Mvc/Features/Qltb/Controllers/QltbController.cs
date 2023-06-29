@@ -48,7 +48,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
             return View(thietbi);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
@@ -81,7 +81,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
@@ -99,7 +99,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _deviceManage.Remove(id);
 

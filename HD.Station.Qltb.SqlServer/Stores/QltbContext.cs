@@ -40,9 +40,9 @@ namespace HD.Station.Qltb.SqlServer
             });
         }
 
-        public DbSet<Thietbi>? Thietbi { get; set; }
-        public DbSet<Donvi>? Donvi { get; set; }
-        public DbSet<Loaithietbi>? Loaithietbi { get; set; }
-        public DbSet<UserAccount>? UserAccount { get; set; }
+        public DbSet<Thietbi> Thietbi { get; set; } = null!;
+        public DbSet<Donvi> Donvi { get; set; } = null!;
+        public DbSet<Loaithietbi> Loaithietbi { get; set; } = null!;
+        public DbSet<UserAccount> UserAccount { get; set; } = null!;
     }
 }

@@ -6,6 +6,7 @@ using HD.Station.Qltb.SqlServer;
 using HD.Station.Qltb.Abstractions.Stores;
 using HD.Station.Qltb.Abstractions.Abstractions;
 using HD.Station.Qltb.Abstractions.Services;
+using HD.Station.Qltb.Abstractions.Data;
 using HD.Station.Qltb.Abstractions.Security;
 using HD.Station.Qltb.Demoo.OptionsSetup;
 
@@ -63,4 +64,22 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Qltb}/{action=Index}/{id?}");
 
+using (var scope = app.Services.CreateScope())
+{
+  var services = scope.ServiceProvider;
+  try
+  {
+      var deviceStore = services.GetRequiredService<IDeviceStore>();
+      IEnumerable<Thietbi?>? deviceList = await deviceStore.GetAllDevices();
+      foreach (var tb in deviceList)
+      {
+          Console.WriteLine(tb?.Tentb);
+      }
+
+  }
+  catch (Exception ex)
+  {
+    Console.WriteLine(ex.ToString());
+  }
+}
 app.Run();

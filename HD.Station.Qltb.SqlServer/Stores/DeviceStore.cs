@@ -1,4 +1,5 @@
 ﻿using HD.Station.Qltb.Abstractions.Data;
+using HD.Station.Qltb.Abstractions.DTO;
 using HD.Station.Qltb.Abstractions.Stores;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace HD.Station.Qltb.SqlServer
             _qltbContext = qltbContext;
         }
 
-        public async Task<IEnumerable<Thietbi?>?> GetAllDevices()
+        public async Task<IEnumerable<Thietbi>> GetAllDevices()
         {
             //var Devices = from d in _qltbContext.Thietbi.Include(s => s.Loaithietbi)
             //              .Include(s => s.Donvi)
@@ -26,7 +27,23 @@ namespace HD.Station.Qltb.SqlServer
             //return DevicesList;
             return await _qltbContext.Thietbi.Include(s => s.Donvi).ToListAsync();
         }
-        public async Task<Thietbi?> GetDeviceById(int? id)
+
+
+        public async Task<IEnumerable<Thietbi>> GetAllDevices(PagingParameters pagingParameters)
+        {
+            var query = _qltbContext.Thietbi.Select(x => x)
+                .Include(x => x.Donvi)
+                .Include(x => x.Loaithietbi);
+            var pageQuery = query
+                .Skip((pagingParameters.PageNumber - 1) * pagingParameters.PageSize)
+                .Take(pagingParameters.PageSize)
+                .AsNoTracking();
+
+            var page = await pageQuery.ToListAsync();
+            return page;
+        }
+
+        public async Task<Thietbi> GetDeviceById(int id)
         {
             //if (id == null)
             //{
@@ -41,16 +58,16 @@ namespace HD.Station.Qltb.SqlServer
             return await _qltbContext.Thietbi.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Donvi?>?> GetAllDonvi()
+        public async Task<IEnumerable<Donvi>> GetAllDonvi()
         {
             return await _qltbContext.Donvi.ToListAsync();
         }
 
-        public async Task<IEnumerable<Loaithietbi?>?> GetAllLoaithietbi()
+        public async Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi()
         {
             return await _qltbContext.Loaithietbi.ToListAsync();
         }
-        public async Task Add(Thietbi? thietbi)
+        public async Task Add(Thietbi thietbi)
         {
             if (thietbi != null)
             {
@@ -58,7 +75,7 @@ namespace HD.Station.Qltb.SqlServer
                 await _qltbContext.SaveChangesAsync();
             }
         }
-        public async Task Remove(Thietbi? thietbi)
+        public async Task Remove(Thietbi thietbi)
         {
             if (thietbi != null)
             {
@@ -66,7 +83,7 @@ namespace HD.Station.Qltb.SqlServer
                 await _qltbContext.SaveChangesAsync();
             }
         }
-        public async Task Update(Thietbi? thietbi)
+        public async Task Update(Thietbi thietbi)
         {
             if (thietbi != null)
             {
@@ -74,7 +91,7 @@ namespace HD.Station.Qltb.SqlServer
                 await _qltbContext.SaveChangesAsync();
             }
         }
-        public async Task<UserAccount?> GetUser(string email, string password)
+        public async Task<UserAccount> GetUser(string email, string password)
         {
             return await _qltbContext.UserAccount.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
@@ -83,7 +100,7 @@ namespace HD.Station.Qltb.SqlServer
         {
             return await _qltbContext.UserAccount.AnyAsync(x => x.Email == email);
         }
-        public async Task<UserAccount> CreateUser(string? username, string? email, string? password)
+        public async Task<UserAccount> CreateUser(string username, string email, string password)
         {
             var user = new UserAccount
             {
@@ -99,17 +116,17 @@ namespace HD.Station.Qltb.SqlServer
             return user;
         }
 
-        public async Task<UserAccount?> FindUser(string? email, string? password)
+        public async Task<UserAccount> FindUser(string email, string password)
         {
             var user = await _qltbContext.UserAccount.Where(x => x.Email == email)
               .SingleOrDefaultAsync();
             return user;
         }
 
-        public async Task<UserAccount?> FindUserById(long id)
+        public async Task<UserAccount> FindUserById(long id)
         {
-          return await _qltbContext.UserAccount
-            .Where(x => x.Id == id).SingleOrDefaultAsync();
+            return await _qltbContext.UserAccount
+              .Where(x => x.Id == id).SingleOrDefaultAsync();
         }
     }
 }
