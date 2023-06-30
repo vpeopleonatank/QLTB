@@ -92,6 +92,20 @@ namespace HD.Station.Qltb.Abstractions.Services
 
             return LoaithietbiList;
         }
+
+        public async Task DeleteDevice(long id)
+        {
+          var device = await _deviceStore.FindDeviceById(id);
+          if (device == null)
+          {
+            return;
+          }
+          else
+          {
+              await _deviceStore.Remove(device);
+          }
+        }
+
         public async Task Add(int thietbiId)
         {
             var thietbi = await _deviceStore.GetDeviceById(thietbiId);

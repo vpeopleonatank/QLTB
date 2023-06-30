@@ -59,5 +59,11 @@ namespace HD.Station.Qltb.Mvc.ApiControllers
             return new AddDevicesResponseDto(donvis, loaithietbis, device);
         }
 
+        [HttpDelete("{matb}")]
+        public async Task<ActionResult> DeleteAsync(long matb)
+        {
+          await _deviceManagement.DeleteDevice(matb);
+          return Ok();
+        }
     }
 }
