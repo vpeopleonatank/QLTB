@@ -7,6 +7,6 @@ namespace HD.Station.Qltb.Abstractions.Data
 
         public int Madv { get; set; }
         public string? Tendv { get; set; }
-        public ICollection<Thietbi>? Thietbis { get; set; }
+        public ICollection<Thietbi>? Thietbis { get; set; } = null!;
     }
 }

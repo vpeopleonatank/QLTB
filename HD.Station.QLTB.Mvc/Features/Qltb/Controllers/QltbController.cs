@@ -54,7 +54,7 @@ namespace HD.Station.Qltb.Mvc.Controllers
             {
                 return NotFound();
             }
-            var thietbi = await _deviceManage.GetDeviceById(id) as Thietbi;
+            var thietbi = await _deviceManage.GetDeviceById((long)id);
             if (thietbi == null)
             {
                 return NotFound();

@@ -43,7 +43,7 @@ namespace HD.Station.Qltb.SqlServer
             return page;
         }
 
-        public async Task<Thietbi> GetDeviceById(int id)
+        public async Task<Thietbi> GetDeviceById(long id)
         {
             //if (id == null)
             //{
@@ -55,25 +55,44 @@ namespace HD.Station.Qltb.SqlServer
             //    return null;
             //}
             //return Device;
-            return await _qltbContext.Thietbi.FindAsync(id);
+            return await _qltbContext.Thietbi.Where(x => x.Matb == id)
+              .Include(x => x.Donvi)
+              .Include(x => x.Loaithietbi)
+              .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Donvi>> GetAllDonvi()
+        public async Task<IEnumerable<Donvi>> GetAllDonvi(bool exclude_relation = false)
         {
-            return await _qltbContext.Donvi.ToListAsync();
+            List<Donvi> donvis;
+            if (exclude_relation)
+            {
+                donvis = await _qltbContext.Donvi.Select(x => new Donvi() { Madv = x.Madv, Tendv = x.Tendv }).ToListAsync();
+            }
+            else
+            {
+                donvis = await _qltbContext.Donvi.ToListAsync();
+            }
+            return donvis;
         }
 
-        public async Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi()
+        public async Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi(bool exclude_relation = false)
         {
-            return await _qltbContext.Loaithietbi.ToListAsync();
+            List<Loaithietbi> loaithietbis;
+            if (exclude_relation)
+            {
+                loaithietbis = await _qltbContext.Loaithietbi.Select(x =>
+                    new Loaithietbi() { Maloai = x.Maloai, Tenloai = x.Tenloai }).ToListAsync();
+            }
+            else
+            {
+                loaithietbis = await _qltbContext.Loaithietbi.ToListAsync();
+            }
+            return loaithietbis;
         }
         public async Task Add(Thietbi thietbi)
         {
-            if (thietbi != null)
-            {
-                _qltbContext.Thietbi.Add(thietbi);
-                await _qltbContext.SaveChangesAsync();
-            }
+            _qltbContext.Thietbi.Add(thietbi);
+            await _qltbContext.SaveChangesAsync();
         }
         public async Task Remove(Thietbi thietbi)
         {
@@ -90,6 +109,10 @@ namespace HD.Station.Qltb.SqlServer
                 _qltbContext.Thietbi.Update(thietbi);
                 await _qltbContext.SaveChangesAsync();
             }
+        }
+        public async Task SaveChangesAsync()
+        {
+          await _qltbContext.SaveChangesAsync();
         }
         public async Task<UserAccount> GetUser(string email, string password)
         {
@@ -114,6 +137,17 @@ namespace HD.Station.Qltb.SqlServer
             await _qltbContext.SaveChangesAsync();
 
             return user;
+        }
+
+
+        public async Task<Thietbi> FindDeviceById(long id)
+        {
+            var thietbi = await _qltbContext.Thietbi.Where(x => x.Matb == id)
+              .Include(x => x.Donvi)
+              .Include(x => x.Loaithietbi)
+              .SingleOrDefaultAsync();
+
+            return thietbi;
         }
 
         public async Task<UserAccount> FindUser(string email, string password)

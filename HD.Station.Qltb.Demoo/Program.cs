@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 using HD.Station.Qltb.SqlServer;
 using HD.Station.Qltb.Abstractions.Stores;
@@ -31,7 +32,11 @@ builder.Services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options => 
+{ 
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 builder.Services.ConfigureOptions<JwtOptionsSetup>()
     .ConfigureOptions<JwtBearerOptionsSetup>()
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

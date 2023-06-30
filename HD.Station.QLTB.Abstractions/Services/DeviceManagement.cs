@@ -25,25 +25,55 @@ namespace HD.Station.Qltb.Abstractions.Services
 
         public async Task<DevicesResponseDto> GetAllDevices(PagingParameters pagingParameters)
         {
-          var thietbis = (List<Thietbi>) await _deviceStore.GetAllDevices(pagingParameters);
-          var thietbiDtos = thietbis.Select(
-              thietbiEntity => ThietbiDTO.MapFromThietbi(thietbiEntity)).ToList();
-          return new DevicesResponseDto(thietbiDtos, thietbiDtos.Count);
+            var thietbis = (List<Thietbi>)await _deviceStore.GetAllDevices(pagingParameters);
+            var thietbiDtos = thietbis.Select(
+                thietbiEntity => ThietbiDTO.MapFromThietbi(thietbiEntity)).ToList();
+            return new DevicesResponseDto(thietbiDtos, thietbiDtos.Count);
 
         }
 
-        public async Task<Thietbi> GetDeviceById(int id)
+        public async Task<ThietbiDTO> AddDeviceAsync(NewDeviceDto deviceDto,
+            Donvi donvi, Loaithietbi loaithietbi)
+        {
+            var thietbi = new Thietbi
+            {
+                Madv = deviceDto.Madv,
+                Maloai = deviceDto.Maloai,
+                Tentb = deviceDto.Tentb,
+                Nuocsx = deviceDto.Nuocsx,
+            };
+            await _deviceStore.Add(thietbi);
+            thietbi.Donvi = donvi;
+            thietbi.Loaithietbi = loaithietbi;
+            var thietbiDto = ThietbiDTO.MapFromThietbi(thietbi);
+            return thietbiDto;
+        }
+
+        public async Task<ThietbiDTO> UpdateDeviceAsync(UpdateDeviceDto deviceDto, long matb,
+            Donvi donviReq, Loaithietbi loaithietbiReq)
+        {
+            var thietbi = await _deviceStore.FindDeviceById(matb);
+            thietbi.UpdateThietbi(deviceDto);
+            await _deviceStore.SaveChangesAsync();
+            thietbi.Donvi = donviReq;
+            thietbi.Loaithietbi = loaithietbiReq;
+            var thietbiDto = ThietbiDTO.MapFromThietbi(thietbi);
+            return thietbiDto;
+        }
+
+        public async Task<ThietbiDTO> GetDeviceById(long id)
         {
             var Device = await _deviceStore.GetDeviceById(id);
             if (Device == null)
             {
                 return null;
             }
-            return Device;
+            var thietbiDto = ThietbiDTO.MapFromThietbi(Device);
+            return thietbiDto;
         }
         public async Task<IEnumerable<Donvi>> GetAllDonvi()
         {
-            var DonviList = await _deviceStore.GetAllDonvi();
+            var DonviList = await _deviceStore.GetAllDonvi(true);
             if (DonviList == null)
             {
                 return null;
@@ -54,7 +84,7 @@ namespace HD.Station.Qltb.Abstractions.Services
 
         public async Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi()
         {
-            var LoaithietbiList = await _deviceStore.GetAllLoaithietbi();
+            var LoaithietbiList = await _deviceStore.GetAllLoaithietbi(true);
             if (LoaithietbiList == null)
             {
                 return null;

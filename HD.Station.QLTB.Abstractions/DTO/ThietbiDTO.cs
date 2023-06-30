@@ -1,4 +1,5 @@
 using HD.Station.Qltb.Abstractions.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace HD.Station.Qltb.Abstractions.DTO
 {
@@ -9,21 +10,23 @@ namespace HD.Station.Qltb.Abstractions.DTO
         public int Maloai { get; set; }
         public string? Tentb { get; set; }
         public string? Nuocsx { get; set; }
+        [Display(Name = "Don vi")]
         public string? Tendv { get; set; }
+        [Display(Name = "Loai thiet bi")]
         public string? Tenloaitb { get; set; }
 
         public static ThietbiDTO MapFromThietbi(Thietbi thietbi)
         {
-          return new ThietbiDTO
-          {
-            Madv = thietbi.Madv,
-            Matb = thietbi.Matb,
-            Maloai = thietbi.Maloai,
-            Tentb = thietbi.Tentb,
-            Nuocsx = thietbi.Nuocsx,
-            Tendv = thietbi.Donvi.Tendv,
-            Tenloaitb = thietbi.Loaithietbi.Tenloai,
-          };
+            return new ThietbiDTO
+            {
+                Madv = thietbi.Madv,
+                Matb = thietbi.Matb,
+                Maloai = thietbi.Maloai,
+                Tentb = thietbi.Tentb,
+                Nuocsx = thietbi.Nuocsx,
+                Tendv = thietbi.Donvi.Tendv,
+                Tenloaitb = thietbi.Loaithietbi.Tenloai,
+            };
         }
     }
     public class PagingParameters
@@ -45,5 +48,10 @@ namespace HD.Station.Qltb.Abstractions.DTO
         }
     }
 
-  public record DevicesResponseDto(List<ThietbiDTO> devices, int DevicesCount);
+    public record DevicesResponseDto(List<ThietbiDTO> devices, int DevicesCount);
+    public record AddDevicesResponseDto(List<Donvi> donvis,
+        List<Loaithietbi> loaithietbis, ThietbiDTO thietbiDto);
+    public record NewDeviceDto(int Madv, int Maloai, string Tentb, string Nuocsx);
+    public record UpdateDeviceDto(int Madv, int Maloai, 
+        string Tentb, string Nuocsx);
 }
