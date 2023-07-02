@@ -28,7 +28,6 @@ namespace HD.Station.Qltb.SqlServer
             return await _qltbContext.Thietbi.Include(s => s.Donvi).ToListAsync();
         }
 
-
         public async Task<IEnumerable<Thietbi>> GetAllDevices(PagingParameters pagingParameters)
         {
             var query = _qltbContext.Thietbi.Select(x => x)
@@ -41,6 +40,11 @@ namespace HD.Station.Qltb.SqlServer
 
             var page = await pageQuery.ToListAsync();
             return page;
+        }
+        
+        public async Task<int> GetDevicesTotal()
+        {
+          return await _qltbContext.Thietbi.CountAsync();
         }
 
         public async Task<Thietbi> GetDeviceById(long id)

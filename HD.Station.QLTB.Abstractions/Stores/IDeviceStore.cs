@@ -20,5 +20,6 @@ namespace HD.Station.Qltb.Abstractions.Stores
         public Task<UserAccount> FindUser(string email, string password);
         public Task<UserAccount> FindUserById(long id);
         public Task SaveChangesAsync();
+        public Task<int> GetDevicesTotal();
     }
 }

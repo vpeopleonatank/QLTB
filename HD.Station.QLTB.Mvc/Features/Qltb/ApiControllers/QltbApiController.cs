@@ -8,13 +8,13 @@ using HD.Station.Qltb.Mvc.Models;
 
 namespace HD.Station.Qltb.Mvc.ApiControllers
 {
-    [Route("api/[controller]")]
+    [Route("api/qltb")]
     [ApiController]
     [Authorize]
-    public class QltbController : Controller
+    public class QltbApiController : Controller
     {
         private readonly IDeviceManagement _deviceManagement;
-        public QltbController(IDeviceManagement deviceManagement)
+        public QltbApiController(IDeviceManagement deviceManagement)
         {
             _deviceManagement = deviceManagement;
         }

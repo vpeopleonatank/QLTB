@@ -28,7 +28,8 @@ namespace HD.Station.Qltb.Abstractions.Services
             var thietbis = (List<Thietbi>)await _deviceStore.GetAllDevices(pagingParameters);
             var thietbiDtos = thietbis.Select(
                 thietbiEntity => ThietbiDTO.MapFromThietbi(thietbiEntity)).ToList();
-            return new DevicesResponseDto(thietbiDtos, thietbiDtos.Count);
+            var devicesTotal = await _deviceStore.GetDevicesTotal();
+            return new DevicesResponseDto(thietbiDtos, devicesTotal);
 
         }
 
