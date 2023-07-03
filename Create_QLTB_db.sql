@@ -37,6 +37,18 @@ create table Thietbi (
 );
 go
 
+create table UserAccount (
+	Id int IDENTITY(1,1),
+	Name nvarchar(255),
+	Email nvarchar(255),
+	Password varchar(100),
+	Bio nvarchar(50),
+	Image nvarchar(255),
+	CreatedAt datetime,
+	UpdatedAt datetime
+);
+go
+
 USE [QLTB]
 GO
 INSERT [dbo].[Donvi] ([Tendv]) VALUES (N'Đơn vị 1')

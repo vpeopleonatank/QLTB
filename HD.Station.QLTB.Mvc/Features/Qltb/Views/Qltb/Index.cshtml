@@ -1,0 +1,133 @@
+﻿@model HD.Station.Qltb.Mvc.Models.DevicesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("body").css("background-color", "green");
+        });
+    </script>
+}
+*@
+<p>
+    <a asp-action="Create">Thêm</a>
+</p>
+
+<table class="table">
+    <thread>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Thietbis![0].Donvi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thietbis![0].Loaithietbi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thietbis![0].Tentb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thietbis![0].Nuocsx)
+            </th>
+        </tr>
+    </thread>
+    <tbody>
+        @foreach (var item in Model.Thietbis!)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Donvi!.Tendv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Loaithietbi!.Tenloai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tentb)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nuocsx)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Matb">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Matb">Xoá</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<p>
+    <button style="background-color: green" id="greenBtn">Green button</button>
+    <button style="background-color: red" id="redBtn">Red button</button>
+    <button style="background-color: yellow" id="yellowBtn">Yellow button</button>
+</p>
+
+<p>
+    <textarea id="inputBox"></textarea>
+    <span id="notifySpan"></span>
+    <input type="text" id="charNum" />
+</p>
+
+@section Scripts {
+    <script>
+        $(document).ready(
+            function () {
+                // Tao 3 button
+                var colorStatus = false;
+                $("#greenBtn").on("click", function () {
+                    if (!colorStatus) {
+                        colorStatus = true;
+                        $("body").css("background-color", "green");
+                    }
+                    else {
+                        colorStatus = false;
+                        $("body").css("background-color", "");
+                    }
+                });
+
+                $("#redBtn").on("click", function () {
+                    if (!colorStatus) {
+                        colorStatus = true;
+                        $("body").css("background-color", "red");
+                    }
+                    else {
+                        colorStatus = false;
+                        $("body").css("background-color", "");
+                    }
+                });
+
+                $("#yellowBtn").on("click", function () {
+                    if (!colorStatus) {
+                        colorStatus = true;
+                        $("body").css("background-color", "yellow");
+                    }
+                    else {
+                        colorStatus = false;
+                        $("body").css("background-color", "");
+                    }
+                });
+
+                // --------- yeu cau 2
+                var inputBox = $("#inputBox");
+                var charNum = $("#charNum");
+                var notifySpan = $("#notifySpan");
+                inputBox.on("keyup", function () {
+                    var currentStr = $(this).val();
+                    var cnt = currentStr.length;
+                    if (cnt > 10) {
+                        $(this).val("");
+                        charNum.val("");
+                        alert("Bạn đã gõ quá 10 ký tự");
+                    }
+                    else {
+
+                        charNum.val(cnt);
+                    }
+                })
+            }
+        );
+    </script>
+}
