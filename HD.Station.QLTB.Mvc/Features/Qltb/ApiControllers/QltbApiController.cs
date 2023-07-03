@@ -65,5 +65,19 @@ namespace HD.Station.Qltb.Mvc.ApiControllers
           await _deviceManagement.DeleteDevice(matb);
           return Ok();
         }
+
+        [HttpGet("donvi")]
+        public async Task<ActionResult<DonvisResponseDto>> GetDonvis()
+        {
+            var donvis = await _deviceManagement.GetDonvis();
+            return new DonvisResponseDto(DonviDTOs: (List<DonviDTO>)donvis);
+        }
+        [HttpGet("loaithietbi")]
+        public async Task<ActionResult<LoaithietbisResponseDto>> GetLoaithietbis()
+        {
+            var loaithietbis = await _deviceManagement.GetLoaithietbis();
+            return new LoaithietbisResponseDto(LoaiThietbiDTOs: (List<LoaiThietbiDTO>)loaithietbis);
+        }
+
     }
 }

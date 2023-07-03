@@ -83,6 +83,19 @@ namespace HD.Station.Qltb.Abstractions.Services
             return DonviList;
         }
 
+        public async Task<IEnumerable<DonviDTO>> GetDonvis()
+        {
+            var DonviList = await _deviceStore.GetAllDonvi(true);
+            if (DonviList == null)
+            {
+                return null;
+            }
+            IEnumerable<DonviDTO> donviDTOs = DonviList
+                .Select(a => new DonviDTO { Madv = a.Madv, Tendv = a.Tendv }).ToList();
+
+            return donviDTOs;
+        }
+
         public async Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi()
         {
             var LoaithietbiList = await _deviceStore.GetAllLoaithietbi(true);
@@ -92,6 +105,21 @@ namespace HD.Station.Qltb.Abstractions.Services
             }
 
             return LoaithietbiList;
+        }
+
+        public async Task<IEnumerable<LoaiThietbiDTO>> GetLoaithietbis()
+        {
+            var LoaithietbiList = await _deviceStore.GetAllLoaithietbi(true);
+            if (LoaithietbiList == null)
+            {
+                return null;
+            }
+            IEnumerable<LoaiThietbiDTO> loaithietbis = LoaithietbiList
+                .Select(a => 
+                new LoaiThietbiDTO { Maloai = a.Maloai, Tenloai = a.Tenloai, Danhmuc = a.Danhmuc, Ghichu = a.Ghichu})
+                .ToList();
+
+            return loaithietbis;
         }
 
         public async Task DeleteDevice(long id)

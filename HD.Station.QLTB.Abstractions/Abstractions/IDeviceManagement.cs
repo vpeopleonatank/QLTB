@@ -9,7 +9,9 @@ namespace HD.Station.Qltb.Abstractions.Abstractions
         public Task<DevicesResponseDto> GetAllDevices(PagingParameters pagingParameters);
         public Task<ThietbiDTO> GetDeviceById(long id);
         public Task<IEnumerable<Donvi>> GetAllDonvi();
+        public Task<IEnumerable<DonviDTO>> GetDonvis();
         public Task<IEnumerable<Loaithietbi>> GetAllLoaithietbi();
+        public Task<IEnumerable<LoaiThietbiDTO>> GetLoaithietbis();
         public Task<ThietbiDTO> AddDeviceAsync(NewDeviceDto deviceDto, 
             Donvi donvi, Loaithietbi loaithietbi);
         public Task<ThietbiDTO> UpdateDeviceAsync(UpdateDeviceDto deviceDto, long matb,
